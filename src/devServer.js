@@ -2,7 +2,7 @@ import React from 'react';
 import express from 'express';
 import { renderToString } from 'react-dom/server';
 
-const resolveRootComponent = () => require('app/components/Root').default;
+const resolveRootComponent = () => require('app/components/Root').default; // eslint-disable-line import/no-extraneous-dependencies, import/no-unresolved
 
 let Root = resolveRootComponent();
 

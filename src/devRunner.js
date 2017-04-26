@@ -34,8 +34,7 @@ export default (appRoot) => {
     },
     resolve: {
       modules: [
-        resolveAppPath('node_modules'),
-        resolveLocalPath('../node_modules')
+        resolveAppPath('node_modules')
       ],
       alias: {
         app: resolveAppPath('src')
@@ -46,9 +45,9 @@ export default (appRoot) => {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
-          loader: resolveLocalNodeDep('babel-loader'),
+          loader: 'babel-loader',
           options: {
-            presets: [resolveLocalNodeDep('babel-preset-react')]
+            presets: ['babel-preset-react']
           }
         }
       }]
@@ -61,7 +60,7 @@ export default (appRoot) => {
 
   let serverProcess;
 
-  compiler.watch({}, (err, stats) => {
+  compiler.watch({}, () => {
     if (!serverProcess) {
       serverProcess = spawn(
         'node',
