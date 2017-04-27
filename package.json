@@ -1,9 +1,47 @@
 {
   "name": "react-devstack",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "An ultimate development stack built on top of React with Redux",
   "author": "Tomas Weiss <tomasw@salsitasoft.com>",
   "license": "MIT",
+  "scripts": {
+    "build": "babel src -d lib",
+    "build:watch": "npm run build -- --watch",
+    "lint": "eslint src",
+    "version": "npm run build",
+    "postversion": "git push && git push --tags",
+    "prepublish": "npm run build"
+  },
+  "bin": {
+    "react-devstack": "./bin/react-devstack.js"
+  },
   "dependencies": {
+    "babel-core": "^6.24.1",
+    "babel-loader": "^7.0.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "cross-spawn": "^5.1.0",
+    "express": "^4.15.2",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "webpack": "^2.4.1"
+  },
+  "peerDependencies": {
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4"
+  },
+  "files": [
+    "lib",
+    "src",
+    "bin"
+  ],
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.3"
   }
 }
