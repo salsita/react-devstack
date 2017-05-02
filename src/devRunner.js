@@ -1,62 +1,13 @@
 import webpack from 'webpack';
-import { resolve } from 'path';
-import fs from 'fs';
 import spawn from 'cross-spawn';
 
-const getCommonJsModules = path =>
-  fs
-    .readdirSync(path)
-    .filter(module => ['.bin'].indexOf(module) === -1)
-    .reduce((memo, module) => ({
-      ...memo,
-      [module]: `commonjs ${module}`
-    }), {});
+import buildServerWebpackConfig from './webpack/buildServerWebpackConfig';
+import { resolveDevStackPath } from './utils/pathResolvers';
 
 const SERVER_BUNDLE_NAME = 'bundle.server.js';
 
-export default (appRoot) => {
-  const resolveAppPath = path => resolve(appRoot, path);
-  const resolveLocalPath = path => resolve(__dirname, path);
-  const resolveLocalNodeDep = dependency => require.resolve(dependency);
-
-  const commonJsModules = getCommonJsModules(resolveAppPath('node_modules'));
-
-  const compiler = webpack({
-    entry: [
-      `${resolveLocalNodeDep('webpack/hot/poll')}?1000`,
-      resolveLocalPath('devServer.js')
-    ],
-    target: 'node',
-    externals: commonJsModules,
-    output: {
-      path: resolveLocalPath('../dist'),
-      filename: SERVER_BUNDLE_NAME
-    },
-    resolve: {
-      modules: [
-        resolveAppPath('node_modules')
-      ],
-      alias: {
-        app: resolveAppPath('src')
-      }
-    },
-    module: {
-      rules: [{
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['babel-preset-react']
-          }
-        }
-      }]
-    },
-    plugins: [
-      new webpack.NamedModulesPlugin(),
-      new webpack.HotModuleReplacementPlugin()
-    ]
-  });
+export default () => {
+  const compiler = webpack(buildServerWebpackConfig(SERVER_BUNDLE_NAME));
 
   let serverProcess;
 
@@ -64,7 +15,7 @@ export default (appRoot) => {
     if (!serverProcess) {
       serverProcess = spawn(
         'node',
-        [resolveLocalPath(`../dist/${SERVER_BUNDLE_NAME}`)],
+        [resolveDevStackPath(`dist/${SERVER_BUNDLE_NAME}`)],
         { stdio: 'inherit' }
       );
     }
