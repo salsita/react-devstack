@@ -3,15 +3,15 @@ import webpack from 'webpack';
 import getBabelPresets from './getBabelPresets';
 import { resolveDevStackPath, resolveAppPath } from '../utils/pathResolvers';
 
-export default bundleName => ({
+export default entry => ({
   devtool: 'inline-source-map',
   entry: [
     'webpack-hot-middleware/client',
-    resolveDevStackPath('src/clientMain.js')
+    entry
   ],
   output: {
     path: '/',
-    filename: bundleName,
+    filename: 'bundle.js',
     publicPath: '/'
   },
   module: {
@@ -28,6 +28,10 @@ export default bundleName => ({
     }]
   },
   resolve: {
+    modules: [
+      resolveAppPath('node_modules'),
+      resolveDevStackPath('node_modules')
+    ],
     alias: {
       app: resolveAppPath('src'),
       'react-hot-loader': resolveDevStackPath('node_modules/react-hot-loader'),
@@ -40,6 +44,11 @@ export default bundleName => ({
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
-    new webpack.NoEmitOnErrorsPlugin()
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        REDUX: JSON.stringify(process.env.REDUX)
+      }
+    })
   ]
 });

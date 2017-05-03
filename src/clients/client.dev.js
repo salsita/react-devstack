@@ -1,12 +1,10 @@
-/* global document */
-
 import 'react-hot-loader/patch';
 
 import React from 'react';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 
-import Root from 'app/components/Root'; // eslint-disable-line
+import Root from 'app/components/Root';
 
 const doRender = (Cmp) => {
   render((

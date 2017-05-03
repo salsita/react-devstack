@@ -15,10 +15,10 @@ const getCommonJsModules = path =>
 
 const commonJsModules = getCommonJsModules(resolveAppPath('node_modules'));
 
-export default bundleName => ({
+export default (bundleName, entry) => ({
   entry: [
     `${resolveDevStackPath('node_modules/webpack/hot/poll')}?1000`,
-    resolveDevStackPath('src/devServer.js')
+    entry
   ],
   target: 'node',
   externals: commonJsModules,
