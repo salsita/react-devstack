@@ -1,5 +1,5 @@
 import webpack from 'webpack';
-import spawn from 'cross-spawn';
+import { Monitor } from 'forever-monitor';
 
 import buildServerWebpackConfig from './webpack/buildServerWebpackConfig';
 import hasRedux from './redux/hasRedux';
@@ -23,17 +23,13 @@ export default () => {
 
   compiler.watch({}, () => {
     if (!serverProcess) {
-      serverProcess = spawn(
-        'node',
-        [resolveDevStackPath(`dist/${SERVER_BUNDLE_NAME}`)],
-        {
-          env: {
-            ...ENV,
-            NODE_PATH: resolveAppPath('node_modules')
-          },
-          stdio: 'inherit'
+      serverProcess = new Monitor(resolveDevStackPath(`dist/${SERVER_BUNDLE_NAME}`), {
+        env: {
+          ...ENV,
+          NODE_PATH: resolveAppPath('node_modules')
         }
-      );
+      });
+      serverProcess.start();
     }
   });
 };
