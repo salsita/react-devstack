@@ -17,7 +17,7 @@ const commonJsModules = getCommonJsModules(resolveAppPath('node_modules'));
 
 export default (bundleName, entry) => ({
   entry: [
-    `${resolveDevStackPath('node_modules/webpack/hot/poll')}?1000`,
+    'webpack/hot/poll?1000',
     entry
   ],
   target: 'node',
@@ -31,7 +31,7 @@ export default (bundleName, entry) => ({
       resolveAppPath('node_modules')
     ],
     alias: {
-      app: resolveAppPath('src'),
+      app: resolveAppPath('src')
       'webpack-dev-middleware': resolveDevStackPath('node_modules/webpack-dev-middleware'),
       'webpack-hot-middleware': resolveDevStackPath('node_modules/webpack-hot-middleware')
     }
