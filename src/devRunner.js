@@ -1,5 +1,7 @@
 import webpack from 'webpack';
 import { Monitor } from 'forever-monitor';
+import clearConsole from 'react-dev-utils/clearConsole';
+import formatWebpackMessages from 'react-dev-utils/formatWebpackMessages';
 
 import buildServerWebpackConfig from './webpack/buildServerWebpackConfig';
 import hasReact from './react/hasReact';
@@ -22,19 +24,44 @@ export default () => {
   }
 
   const compiler = webpack(buildServerWebpackConfig(SERVER_BUNDLE_NAME, getEntryServerName()));
+  compiler.watch({}, () => {});
 
-  let serverProcess;
-  const ENV = process.env;
+  let firstCompile = true;
 
-  compiler.watch({}, () => {
-    if (!serverProcess) {
-      serverProcess = new Monitor(resolveDevStackPath(`dist/${SERVER_BUNDLE_NAME}`), {
+  compiler.plugin('invalid', () => {
+    clearConsole();
+    console.log('Compiling...');
+  });
+
+  compiler.plugin('done', stats => {
+    const messages = formatWebpackMessages(stats.toJson({}, true));
+    const isSuccessful = !messages.errors.length && !messages.warnings.length;
+
+    clearConsole();
+
+    if (isSuccessful) {
+      console.log('Compiled successfully');
+    }
+
+    if (messages.errors.length) {
+      console.error('Compiled with errors');
+      messages.errors.forEach(error => console.error(error));
+    }
+
+    if (messages.warnings.length) {
+      console.warn('Compiled with warnings');
+      messages.warnings.forEach(warning => console.warn(warning));
+    }
+
+    if (isSuccessful && firstCompile) {
+      const serverProcess = new Monitor(resolveDevStackPath(`dist/${SERVER_BUNDLE_NAME}`), {
         env: {
-          ...ENV,
+          ...process.env,
           NODE_PATH: resolveAppPath('node_modules')
         }
       });
       serverProcess.start();
+      firstCompile = false;
     }
   });
 };
