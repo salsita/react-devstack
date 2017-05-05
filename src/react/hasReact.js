@@ -14,8 +14,8 @@ export default () => {
     throw new Error('Please install react-dom as a dependency: npm install react-dom --save');
   }
 
-  if (!existsSync(resolveAppPath('src/components/Root'))) {
-    throw new Error('Please create a root component in src/Components/Root.js');
+  if (!existsSync(resolveAppPath('src/components/Root.js'))) {
+    throw new Error('Please create a root component in src/components/Root.js');
   }
 
   return true;
