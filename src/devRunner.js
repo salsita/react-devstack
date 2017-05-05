@@ -2,7 +2,7 @@ import webpack from 'webpack';
 import { Monitor } from 'forever-monitor';
 
 import buildServerWebpackConfig from './webpack/buildServerWebpackConfig';
-import hasReact from './redux/hasReact';
+import hasReact from './react/hasReact';
 import hasRedux from './redux/hasRedux';
 import { resolveAppPath, resolveDevStackPath } from './utils/pathResolvers';
 
