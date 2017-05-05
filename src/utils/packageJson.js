@@ -5,4 +5,5 @@ export const read = (path) => {
   return JSON.parse(packageJsonContent);
 };
 
-export const hasDependency = (packageJson, name) => !!packageJson.dependencies[name];
+export const hasDependency = (packageJson, name) =>
+  packageJson.dependencies && !!packageJson.dependencies[name];

@@ -2,6 +2,7 @@ import webpack from 'webpack';
 import { Monitor } from 'forever-monitor';
 
 import buildServerWebpackConfig from './webpack/buildServerWebpackConfig';
+import hasReact from './redux/hasReact';
 import hasRedux from './redux/hasRedux';
 import { resolveAppPath, resolveDevStackPath } from './utils/pathResolvers';
 
@@ -16,6 +17,10 @@ const getEntryServerName = () => {
 };
 
 export default () => {
+  if (!hasReact()) {
+    return false;
+  }
+
   const compiler = webpack(buildServerWebpackConfig(SERVER_BUNDLE_NAME, getEntryServerName()));
 
   let serverProcess;
