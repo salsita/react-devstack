@@ -2,6 +2,8 @@ import fs from 'fs';
 import webpack from 'webpack';
 
 import getBabelPresets from './getBabelPresets';
+import getModule from './getModule';
+import getResolve from './getResolve';
 import { resolveDevStackPath, resolveAppPath } from '../utils/pathResolvers';
 
 const getCommonJsModules = path =>
@@ -23,31 +25,13 @@ export default (bundleName, entry) => ({
   target: 'node',
   externals: commonJsModules,
   output: {
-    path: resolveDevStackPath('dist'),
+    path: resolveDevStackPath('dist'), // TODO: do we really want to keep transpiled stuff inside the library?
+                                       // Wouldn't it rather make sense to keep this in app folder?
+                                       // Is it possible to purge it from time to time?
     filename: bundleName
   },
-  resolve: {
-    modules: [
-      resolveAppPath('node_modules')
-    ],
-    alias: {
-      app: resolveAppPath('src'),
-      'webpack-dev-middleware': resolveDevStackPath('node_modules/webpack-dev-middleware'),
-      'webpack-hot-middleware': resolveDevStackPath('node_modules/webpack-hot-middleware')
-    }
-  },
-  module: {
-    rules: [{
-      test: /\.js$/,
-      exclude: /node_modules/,
-      use: {
-        loader: 'babel-loader',
-        options: {
-          presets: getBabelPresets()
-        }
-      }
-    }]
-  },
+  resolve: getResolve(),
+  module: getModule(),
   plugins: [
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
