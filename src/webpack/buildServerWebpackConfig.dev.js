@@ -9,6 +9,7 @@ import getCommonJsModules from '../utils/getCommonJsModules';
 const commonJsModules = getCommonJsModules(resolveAppPath('node_modules'));
 
 const cssLoaders = [`css-loader/locals?${getCssLoaderQuery()}`];
+const fileLoaders = ['file-loader?emitFile=false&publicPath=/'];
 
 export default (bundleName, entry) => ({
   entry: [
@@ -24,7 +25,7 @@ export default (bundleName, entry) => ({
     filename: bundleName
   },
   resolve: getResolve(),
-  module: getModule(cssLoaders),
+  module: getModule(cssLoaders, fileLoaders),
   plugins: [
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),

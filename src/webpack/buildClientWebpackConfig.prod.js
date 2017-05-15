@@ -11,6 +11,7 @@ const cssLoaders = ExtractTextPlugin.extract({
   fallback: 'style-loader',
   use: `css-loader?${getCssLoaderQuery()}`
 });
+const fileLoaders = ['file-loader'];
 
 export default entry => ({
   devtool: 'source-map',
@@ -19,7 +20,7 @@ export default entry => ({
     path: resolveAppPath('dist/client'),
     filename: '[name].[chunkhash:8].min.js'
   },
-  module: getModule(cssLoaders),
+  module: getModule(cssLoaders, fileLoaders),
   resolve: getResolve(),
   plugins: [
     new webpack.NamedModulesPlugin(),

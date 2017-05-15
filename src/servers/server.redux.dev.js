@@ -12,4 +12,4 @@ exitWhenError();
 const server = express();
 enrichClientBundleWithHotReloading(server, resolveDevStackPath('src/clients/client.redux'));
 enrichServerSideRenderingHandler(server, reactReduxProvider, htmlTemplate('bundle.js'));
-server.listen(3001);
+server.listen(process.env.PORT || 3000);

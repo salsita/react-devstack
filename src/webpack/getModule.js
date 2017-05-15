@@ -2,7 +2,7 @@ import { realpathSync } from 'fs';
 
 import { resolveDevStackPath, resolveAppPath } from '../utils/pathResolvers';
 
-export default cssLoaders => ({
+export default (cssLoaders, fileLoaders) => ({
   rules: [{
     test: /\.js$/,
     include: [
@@ -23,10 +23,11 @@ export default cssLoaders => ({
     }]
   }, {
     test: /\.css$/,
-    include: [
-      realpathSync(resolveAppPath('src')),
-      realpathSync(resolveDevStackPath('src'))
-    ],
+    include: realpathSync(resolveAppPath('src')),
     use: cssLoaders
+  }, {
+    test: /\.svg$/,
+    include: realpathSync(resolveAppPath('src')),
+    use: fileLoaders
   }]
 });

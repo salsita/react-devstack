@@ -12,6 +12,7 @@ const commonJsModules = getCommonJsModules(resolveAppPath('node_modules'));
 commonJsModules['./client/asset-manifest.json'] = 'commonjs ./client/asset-manifest.json';
 
 const cssLoaders = [`css-loader/locals?${getCssLoaderQuery()}`];
+const fileLoaders = ['file-loader?emitFile=false'];
 
 export default entry => ({
   entry,
@@ -22,7 +23,7 @@ export default entry => ({
     filename: 'server.js'
   },
   resolve: getResolve(),
-  module: getModule(cssLoaders),
+  module: getModule(cssLoaders, fileLoaders),
   plugins: [
     new webpack.NamedModulesPlugin(),
     new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"production"' })

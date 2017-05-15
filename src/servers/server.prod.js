@@ -10,4 +10,4 @@ const manifest = require('./client/asset-manifest.json');
 const server = express();
 enrichProductionStaticFileServing(server);
 enrichServerSideRenderingHandler(server, plainReactProvider, htmlTemplate(manifest['main.js'], manifest['main.css']));
-server.listen(3001);
+server.listen(process.env.PORT || 3000);

@@ -5,6 +5,7 @@ import getModule from './getModule';
 import getResolve from './getResolve';
 
 const cssLoaders = ['style-loader', `css-loader?${getCssLoaderQuery()}`];
+const fileLoaders = ['file-loader'];
 
 export default entry => ({
   devtool: 'inline-source-map',
@@ -18,7 +19,7 @@ export default entry => ({
     filename: 'bundle.js',
     publicPath: '/'
   },
-  module: getModule(cssLoaders),
+  module: getModule(cssLoaders, fileLoaders),
   resolve: getResolve(),
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
