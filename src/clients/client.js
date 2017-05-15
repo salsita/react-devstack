@@ -1,5 +1,3 @@
-import 'react-hot-loader/patch';
-
 import React from 'react';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
@@ -16,6 +14,6 @@ const doRender = (Cmp) => {
 
 doRender(Root);
 
-if (module.hot) {
+if (process.env.NODE_ENV === 'development' && module.hot) {
   module.hot.accept('app/components/Root', () => doRender(Root));
 }

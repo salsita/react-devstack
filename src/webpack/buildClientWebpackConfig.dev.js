@@ -7,6 +7,7 @@ import getResolve from './getResolve';
 export default entry => ({
   devtool: 'inline-source-map',
   entry: [
+    'react-hot-loader/patch',
     'webpack-hot-middleware/client',
     entry
   ],
@@ -20,6 +21,7 @@ export default entry => ({
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
-    new webpack.NoEmitOnErrorsPlugin()
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"development"' })
   ]
 });

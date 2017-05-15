@@ -24,7 +24,7 @@ const doRender = (Cmp) => {
 
 doRender(Root);
 
-if (module.hot) {
+if (process.env.NODE_ENV === 'development' && module.hot) {
   module.hot.accept('app/components/Root', () => doRender(Root));
   module.hot.accept('app/reducers/rootReducer', () => {
     store.replaceReducer(rootReducer);

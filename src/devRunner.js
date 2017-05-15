@@ -3,7 +3,7 @@ import { Monitor } from 'forever-monitor';
 import clearConsole from 'react-dev-utils/clearConsole';
 import formatWebpackMessages from 'react-dev-utils/formatWebpackMessages';
 
-import buildServerWebpackConfig from './webpack/buildServerWebpackConfig';
+import buildServerWebpackConfig from './webpack/buildServerWebpackConfig.dev';
 import hasReact from './react/hasReact';
 import hasRedux from './redux/hasRedux';
 import { resolveAppPath, resolveDevStackPath } from './utils/pathResolvers';

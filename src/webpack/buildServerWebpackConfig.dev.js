@@ -1,19 +1,9 @@
-import fs from 'fs';
 import webpack from 'webpack';
 
-import getBabelPresets from './getBabelPresets';
 import getModule from './getModule';
 import getResolve from './getResolve';
 import { resolveDevStackPath, resolveAppPath } from '../utils/pathResolvers';
-
-const getCommonJsModules = path =>
-  fs
-    .readdirSync(path)
-    .filter(module => ['.bin'].indexOf(module) === -1)
-    .reduce((memo, module) => ({
-      ...memo,
-      [module]: `commonjs ${module}`
-    }), {});
+import getCommonJsModules from '../utils/getCommonJsModules';
 
 const commonJsModules = getCommonJsModules(resolveAppPath('node_modules'));
 
@@ -35,6 +25,7 @@ export default (bundleName, entry) => ({
   plugins: [
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin()
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"development"' })
   ]
 });

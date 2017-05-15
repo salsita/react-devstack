@@ -1,4 +1,4 @@
-export default (content, state) => `
+export default bundleName => (content, state) => `
   <html>
     <head>
       <title>react-universal-app-generator</title>
@@ -10,7 +10,7 @@ export default (content, state) => `
     </head>
     <body>
       <div id="root">${content}</div>
-      <script src="/bundle.js"></script>
+      <script src="/${bundleName}"></script>
     </body>
   </html>
 `;
