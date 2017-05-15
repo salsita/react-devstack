@@ -1,3 +1,5 @@
+/* global window */
+
 import { createStore } from 'redux';
 
 export default (reducer) => {

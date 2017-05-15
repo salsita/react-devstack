@@ -1,5 +1,3 @@
-const nullStateProvider = () => null;
-
 export default (server, provider, templateProvider) => {
   server.get('*', (req, res) => {
     const {

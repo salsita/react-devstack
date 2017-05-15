@@ -1,3 +1,5 @@
+/* eslint-env browser */
+
 import 'react-hot-loader/patch';
 
 import React from 'react';

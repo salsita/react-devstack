@@ -1,6 +1,5 @@
 import webpack from 'webpack';
 
-import getBabelPresets from './getBabelPresets';
 import getModule from './getModule';
 import getResolve from './getResolve';
 

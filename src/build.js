@@ -12,12 +12,12 @@ const getEntryName = () => {
       server: resolveDevStackPath('src/servers/server.prod.js'),
       client: resolveDevStackPath('src/clients/client.js')
     };
-  } else {
-    return {
-      server: resolveDevStackPath('src/servers/server.redux.prod.js'),
-      client: resolveDevStackPath('src/clients/client.redux.js')
-    };
   }
+
+  return {
+    server: resolveDevStackPath('src/servers/server.redux.prod.js'),
+    client: resolveDevStackPath('src/clients/client.redux.js')
+  };
 };
 
 const compileWithWebpack = config => new Promise((res, rej) => {
@@ -76,4 +76,6 @@ export default async () => {
   } catch (ex) {
     console.error(ex);
   }
+
+  return true;
 };

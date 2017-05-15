@@ -13,9 +13,9 @@ const SERVER_BUNDLE_NAME = 'bundle.server.js';
 const getEntryServerName = () => {
   if (!hasRedux()) {
     return resolveDevStackPath('src/servers/server.dev.js');
-  } else {
-    return resolveDevStackPath('src/servers/server.redux.dev.js');
   }
+
+  return resolveDevStackPath('src/servers/server.redux.dev.js');
 };
 
 export default () => {
@@ -33,7 +33,7 @@ export default () => {
     console.log('Compiling...');
   });
 
-  compiler.plugin('done', stats => {
+  compiler.plugin('done', (stats) => {
     const messages = formatWebpackMessages(stats.toJson({}, true));
     const isSuccessful = !messages.errors.length && !messages.warnings.length;
 
@@ -64,4 +64,6 @@ export default () => {
       firstCompile = false;
     }
   });
+
+  return true;
 };

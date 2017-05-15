@@ -1,7 +1,6 @@
 import webpack from 'webpack';
 import ManifestPlugin from 'webpack-manifest-plugin';
 
-import getBabelPresets from './getBabelPresets';
 import getModule from './getModule';
 import getResolve from './getResolve';
 import { resolveAppPath } from '../utils/pathResolvers';
