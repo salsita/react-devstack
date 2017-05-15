@@ -1,11 +1,12 @@
+import { realpathSync } from 'fs';
 import { resolveDevStackPath, resolveAppPath } from '../utils/pathResolvers';
 
 export default () => ({
   rules: [{
     test: /\.js$/,
     include: [
-      resolveAppPath('src'),
-      resolveDevStackPath('src')
+      realpathSync(resolveAppPath('src')),
+      realpathSync(resolveDevStackPath('src'))
     ],
     use: [{
       loader: 'babel-loader',
