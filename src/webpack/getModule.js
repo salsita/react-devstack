@@ -3,10 +3,10 @@ import { resolveDevStackPath, resolveAppPath } from '../utils/pathResolvers';
 export default () => ({
   rules: [{
     test: /\.js$/,
-    // include: [
-    //   resolveAppPath('src'),
-    //   resolveDevStackPath('src')
-    // ],
+    include: [
+      resolveAppPath('src'),
+      resolveDevStackPath('src')
+    ],
     use: [{
       loader: 'babel-loader',
       options: {
