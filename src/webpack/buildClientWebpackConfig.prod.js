@@ -1,9 +1,16 @@
 import webpack from 'webpack';
 import ManifestPlugin from 'webpack-manifest-plugin';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
+import getCssLoaderQuery from './getCssLoaderQuery';
 import getModule from './getModule';
 import getResolve from './getResolve';
 import { resolveAppPath } from '../utils/pathResolvers';
+
+const cssLoaders = ExtractTextPlugin.extract({
+  fallback: 'style-loader',
+  use: `css-loader?${getCssLoaderQuery()}`
+});
 
 export default entry => ({
   devtool: 'source-map',
@@ -12,7 +19,7 @@ export default entry => ({
     path: resolveAppPath('dist/client'),
     filename: '[name].[chunkhash:8].min.js'
   },
-  module: getModule(),
+  module: getModule(cssLoaders),
   resolve: getResolve(),
   plugins: [
     new webpack.NamedModulesPlugin(),
@@ -28,6 +35,7 @@ export default entry => ({
     }),
     new ManifestPlugin({
       fileName: 'asset-manifest.json',
-    })
+    }),
+    new ExtractTextPlugin('[name].[chunkhash:8].min.css')
   ]
 });

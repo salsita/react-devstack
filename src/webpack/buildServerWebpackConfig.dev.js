@@ -1,11 +1,14 @@
 import webpack from 'webpack';
 
+import getCssLoaderQuery from './getCssLoaderQuery';
 import getModule from './getModule';
 import getResolve from './getResolve';
 import { resolveDevStackPath, resolveAppPath } from '../utils/pathResolvers';
 import getCommonJsModules from '../utils/getCommonJsModules';
 
 const commonJsModules = getCommonJsModules(resolveAppPath('node_modules'));
+
+const cssLoaders = [`css-loader/locals?${getCssLoaderQuery()}`];
 
 export default (bundleName, entry) => ({
   entry: [
@@ -21,7 +24,7 @@ export default (bundleName, entry) => ({
     filename: bundleName
   },
   resolve: getResolve(),
-  module: getModule(),
+  module: getModule(cssLoaders),
   plugins: [
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
