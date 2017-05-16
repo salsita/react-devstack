@@ -25,6 +25,9 @@ export default entry => ({
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"development"' })
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': '"development"',
+      __BROWSER__: 'true'
+    })
   ]
 });

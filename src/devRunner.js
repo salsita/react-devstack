@@ -6,16 +6,21 @@ import formatWebpackMessages from 'react-dev-utils/formatWebpackMessages';
 import buildServerWebpackConfig from './webpack/buildServerWebpackConfig.dev';
 import hasReact from './react/hasReact';
 import hasRedux from './redux/hasRedux';
+import hasRouting from './router/hasRouting';
 import { resolveAppPath, resolveDevStackPath } from './utils/pathResolvers';
 
 const SERVER_BUNDLE_NAME = 'bundle.server.js';
 
 const getEntryServerName = () => {
   if (!hasRedux()) {
-    return resolveDevStackPath('src/servers/server.dev.js');
+    return resolveDevStackPath('src/servers/server.js');
   }
 
-  return resolveDevStackPath('src/servers/server.redux.dev.js');
+  if (!hasRouting()) {
+    return resolveDevStackPath('src/servers/server.redux.js');
+  }
+
+  return resolveDevStackPath('src/servers/server.reduxRouter.js');
 };
 
 export default () => {

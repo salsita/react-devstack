@@ -4,19 +4,27 @@ import buildServerWebpackConfig from './webpack/buildServerWebpackConfig.prod';
 import buildClientWebpackConfig from './webpack/buildClientWebpackConfig.prod';
 import hasReact from './react/hasReact';
 import hasRedux from './redux/hasRedux';
+import hasRouting from './router/hasRouting';
 import { resolveDevStackPath } from './utils/pathResolvers';
 
 const getEntryName = () => {
   if (!hasRedux()) {
     return {
-      server: resolveDevStackPath('src/servers/server.prod.js'),
+      server: resolveDevStackPath('src/servers/server.js'),
       client: resolveDevStackPath('src/clients/client.js')
     };
   }
 
+  if (!hasRouting()) {
+    return {
+      server: resolveDevStackPath('src/servers/server.redux.js'),
+      client: resolveDevStackPath('src/clients/client.redux.js')
+    };
+  }
+
   return {
-    server: resolveDevStackPath('src/servers/server.redux.prod.js'),
-    client: resolveDevStackPath('src/clients/client.redux.js')
+    server: resolveDevStackPath('src/servers/server.reduxRouter.js'),
+    client: resolveDevStackPath('src/clients/client.reduxRouter.js')
   };
 };
 

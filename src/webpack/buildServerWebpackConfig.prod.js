@@ -3,6 +3,7 @@ import webpack from 'webpack';
 import getCssLoaderQuery from './getCssLoaderQuery';
 import getModule from './getModule';
 import getResolve from './getResolve';
+import hasRouting from '../redux/hasRouting';
 import { resolveAppPath } from '../utils/pathResolvers';
 import getCommonJsModules from '../utils/getCommonJsModules';
 
@@ -26,6 +27,10 @@ export default entry => ({
   module: getModule(cssLoaders, fileLoaders),
   plugins: [
     new webpack.NamedModulesPlugin(),
-    new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"production"' })
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': '"production"',
+      __BROWSER__: 'false',
+      __HAS_ROUTING__: hasRouting()
+    })
   ]
 });

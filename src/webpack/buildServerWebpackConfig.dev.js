@@ -7,6 +7,8 @@ import { resolveDevStackPath, resolveAppPath } from '../utils/pathResolvers';
 import getCommonJsModules from '../utils/getCommonJsModules';
 
 const commonJsModules = getCommonJsModules(resolveAppPath('node_modules'));
+// asset-manifest.json is being added later in the compilation process
+commonJsModules['./client/asset-manifest.json'] = 'commonjs ./client/asset-manifest.json';
 
 const cssLoaders = [`css-loader/locals?${getCssLoaderQuery()}`];
 const fileLoaders = ['file-loader?emitFile=false&publicPath=/'];
@@ -30,6 +32,9 @@ export default (bundleName, entry) => ({
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"development"' })
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': '"development"',
+      __BROWSER__: 'false'
+    })
   ]
 });

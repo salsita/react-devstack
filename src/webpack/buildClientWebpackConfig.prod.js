@@ -24,7 +24,10 @@ export default entry => ({
   resolve: getResolve(),
   plugins: [
     new webpack.NamedModulesPlugin(),
-    new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"production"' }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': '"production"',
+      __BROWSER__: 'true'
+    }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false,

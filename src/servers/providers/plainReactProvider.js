@@ -7,7 +7,7 @@ if (module.hot) {
   module.hot.accept('app/components/Root');
 }
 
-export default () => ({
-  content: renderToString(<RootComponent />)
-});
-
+export default () => new Promise(res => res({
+  content: renderToString(<RootComponent />),
+  found: true
+}));
