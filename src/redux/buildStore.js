@@ -1,5 +1,5 @@
 /* global window */
-import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
+import { applyMiddleware, compose, createStore } from 'redux';
 
 const identity = value => value;
 
@@ -11,12 +11,9 @@ const getDevTools = () => {
   return identity;
 };
 
-export default (root, reducers = {}, ...middlewares) => {
-  const newReducers = reducers;
-  newReducers.root = root;
-
+export default (reducer, ...middlewares) => {
   const store = createStore(
-    combineReducers(newReducers),
+    reducer,
     __BROWSER__ ? window.reduxState : undefined,
     compose(
       applyMiddleware(...middlewares),

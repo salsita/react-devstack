@@ -8,11 +8,12 @@ import { AppContainer } from 'react-hot-loader';
 import { Provider } from 'react-redux';
 
 import buildStore from '../redux/buildStore';
+import createRootReducer from '../redux/createRootReducer';
 
 import Root from 'app/components/Root';
 import rootReducer from 'app/reducers/rootReducer';
 
-const store = buildStore(rootReducer);
+const store = buildStore(createRootReducer(rootReducer));
 
 const doRender = (Cmp) => {
   render((
@@ -29,6 +30,6 @@ doRender(Root);
 if (process.env.NODE_ENV === 'development' && module.hot) {
   module.hot.accept('app/components/Root', () => doRender(Root));
   module.hot.accept('app/reducers/rootReducer', () => {
-    store.replaceReducer(rootReducer);
+    store.replaceReducer(createRootReducer(rootReducer));
   });
 }

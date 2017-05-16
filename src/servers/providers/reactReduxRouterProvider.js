@@ -1,6 +1,7 @@
-import { router5Middleware, router5Reducer } from 'redux-router5';
+import { router5Middleware } from 'redux-router5';
 
 import buildStore from '../../redux/buildStore';
+import createRootReducerWithRouter from '../../redux/createRootReducerWithRouter';
 import renderAppToString from '../../redux/renderAppToString';
 import createRouter from '../../router/createRouter';
 import { isNotFoundRoute } from '../../selectors';
@@ -13,10 +14,7 @@ if (module.hot) {
 
 export default url => new Promise((res, rej) => {
   const router = createRouter();
-
-  const store = buildStore(rootReducer, {
-    router: router5Reducer
-  }, router5Middleware(router));
+  const store = buildStore(createRootReducerWithRouter(rootReducer), router5Middleware(router));
 
   router.start(url, (error) => {
     if (error) {
