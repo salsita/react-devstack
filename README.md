@@ -12,3 +12,5 @@ In order to get started as easily as possible, we have prepared CLI utility to m
 4. And start the app using `npm run dev`
 
 It will automatically open your browser upon compilation.
+
+Enjoy all the hot-reloading, server side rendering etc. :-)
