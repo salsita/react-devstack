@@ -28,7 +28,7 @@ export default (provider, clientEntry) => {
 
   const { js, css } = getJsAndCssBundle();
   enrichServerSideRenderingHandler(server, provider, htmlTemplate(js, css));
-  server.listen(process.env.PORT || 3000);
+  server.listen(process.env.PORT || 8999);
 
   return server;
 };

@@ -1,7 +1,7 @@
 export default (jsBundleName, cssBundleName) => (content, state) => `
   <html>
     <head>
-      <title>react-universal-app-generator</title>
+      <title>react-devstack</title>
       ${cssBundleName ? `
       <link href="/${cssBundleName}" media="all" rel="stylesheet" />
       ` : ''}
