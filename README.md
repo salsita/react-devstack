@@ -7,7 +7,7 @@
 In order to get started as easily as possible, we have prepared CLI utility to make app bootstrapping a breeze.
 
 1. Install `react-devstack-cli` globally using: `npm install react-devstack-cli -g`
-2. Create an empty React project using the CLI (it's called `rdc`): `rdc project-name`
+2. Create an empty React project using the CLI (it's called `rdc`): `rdc create project-name`
 3. After generating the project, CLI will guide you, however in case you wondered just: `cd project-name`
 4. And start the app using `npm run dev`
 
