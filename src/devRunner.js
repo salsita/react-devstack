@@ -75,7 +75,8 @@ export default () => {
           });
           serverProcess.start();
           firstCompile = false;
-          openBrowser(`http://localhost:${DEFAULT_PORT}`);
+
+          setTimeout(() => openBrowser(`http://localhost:${DEFAULT_PORT}`), 1000);
         }
       });
     } else {
