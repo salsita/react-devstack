@@ -2,7 +2,7 @@
 
 > An ultimate opinionated universal React devstack. Don't hassle with project build and other stuff, just do what matters: start developing your application, right now!
 
-# Getting started
+## Getting started
 
 In order to get started as easily as possible, we have prepared CLI utility to make app bootstrapping a breeze.
 
@@ -15,6 +15,14 @@ It will automatically open your browser upon compilation.
 
 Enjoy all the hot-reloading, server side rendering etc. :-)
 
-# State management (using Redux)
+## State management (using Redux)
 
 `react-devstack` is packed with [`redux`](http://redux.js.org/) for dealing with state. Redux provides single store instance which holds all the state information in one place.
+
+## Routing
+
+## Data fetching
+
+## Custom HTML template
+
+## DevTools
