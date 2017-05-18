@@ -6,17 +6,31 @@ import React from 'react';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import { Provider } from 'react-redux';
-import { router5Middleware } from 'redux-router5';
 
-import buildStore from '../redux/buildStore';
-import createRootReducerWithRouter from '../redux/createRootReducerWithRouter';
+import createReducer from '../redux/createReducer';
+import createStore from '../redux/createStore';
 import createRouter from '../router/createRouter';
 
 import Root from 'app/components/Root';
-import rootReducer from 'app/reducers/rootReducer';
 
-const router = createRouter();
-const store = buildStore(createRootReducerWithRouter(rootReducer), router5Middleware(router));
+let reducer;
+let routes;
+let saga;
+
+if (__HAS_REDUX__) {
+  reducer = require('app/reducers/rootReducer').default;
+}
+
+if (__HAS_ROUTING__) {
+  routes = require('app/routing/routes').default;
+}
+
+if (__HAS_SAGA__) {
+  saga = require('app/sagas/rootSaga').default;
+}
+
+const router = createRouter(routes);
+const { store } = createStore(reducer, saga, router);
 
 const doRender = (Cmp) => {
   render((
@@ -32,7 +46,10 @@ router.start(window.reduxState.router.route, () => doRender(Root));
 
 if (process.env.NODE_ENV === 'development' && module.hot) {
   module.hot.accept('app/components/Root', () => doRender(Root));
-  module.hot.accept('app/reducers/rootReducer', () => {
-    store.replaceReducer(createRootReducerWithRouter(rootReducer));
-  });
+
+  if (reducer) {
+    module.hot.accept('app/reducers/rootReducer', () => {
+      store.replaceReducer(createReducer(require('app/reducers/rootReducer').default));
+    });
+  }
 }

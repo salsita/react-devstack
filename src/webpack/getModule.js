@@ -2,6 +2,12 @@ import { realpathSync } from 'fs';
 
 import { resolveDevStackPath, resolveAppPath } from '../utils/pathResolvers';
 
+const plugins = ['transform-runtime'];
+
+if (process.env.NODE_ENV === 'development') {
+  plugins.push(resolveAppPath('node_modules/react-hot-loader/babel'));
+}
+
 export default (cssLoaders, fileLoaders) => ({
   rules: [{
     test: /\.js$/,
@@ -16,9 +22,7 @@ export default (cssLoaders, fileLoaders) => ({
           ['es2015', { modules: false }],
           'babel-preset-react'
         ],
-        plugins: process.env.NODE_ENV === 'development' ?
-          [resolveAppPath('node_modules/react-hot-loader/babel')] :
-          []
+        plugins
       }
     }]
   }, {

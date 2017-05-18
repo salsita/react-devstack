@@ -3,6 +3,9 @@ import webpack from 'webpack';
 import getCssLoaderQuery from './getCssLoaderQuery';
 import getModule from './getModule';
 import getResolve from './getResolve';
+import hasRedux from '../redux/hasRedux';
+import hasRouting from '../redux/hasRouting';
+import hasSaga from '../saga/hasSaga';
 import { resolveDevStackPath, resolveAppPath } from '../utils/pathResolvers';
 import getCommonJsModules from '../utils/getCommonJsModules';
 
@@ -13,10 +16,39 @@ commonJsModules['./client/asset-manifest.json'] = 'commonjs ./client/asset-manif
 const cssLoaders = [`css-loader/locals?${getCssLoaderQuery()}`];
 const fileLoaders = ['file-loader?emitFile=false&publicPath=/'];
 
-export default (bundleName, entry) => ({
+const __HAS_REDUX__ = hasRedux();
+const __HAS_ROUTING__ = hasRouting();
+const __HAS_SAGA__ = hasSaga();
+
+const plugins = [
+  new webpack.NamedModulesPlugin(),
+  new webpack.HotModuleReplacementPlugin(),
+  new webpack.NoEmitOnErrorsPlugin(),
+  new webpack.DefinePlugin({
+    'process.env.NODE_ENV': '"development"',
+    __BROWSER__: 'false',
+    __HAS_REDUX__,
+    __HAS_ROUTING__,
+    __HAS_SAGA__
+  })
+];
+
+if (!__HAS_REDUX__) {
+  plugins.push(new webpack.IgnorePlugin(/app\/reducers\/rootReducer/));
+}
+
+if (!__HAS_ROUTING__) {
+  plugins.push(new webpack.IgnorePlugin(/app\/routing\/routes\//));
+}
+
+if (!__HAS_SAGA__) {
+  plugins.push(new webpack.IgnorePlugin(/app\/sagas\/rootSaga\//));
+}
+
+export default bundleName => ({
   entry: [
     'webpack/hot/poll?1000',
-    entry
+    resolveDevStackPath('src/server/server.js')
   ],
   target: 'node',
   externals: commonJsModules,
@@ -28,13 +60,5 @@ export default (bundleName, entry) => ({
   },
   resolve: getResolve(),
   module: getModule(cssLoaders, fileLoaders),
-  plugins: [
-    new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': '"development"',
-      __BROWSER__: 'false'
-    })
-  ]
+  plugins
 });
