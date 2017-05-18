@@ -8,25 +8,11 @@ import detect from '@timer/detect-port';
 
 import buildServerWebpackConfig from './webpack/buildServerWebpackConfig.dev';
 import hasReact from './react/hasReact';
-import hasRedux from './redux/hasRedux';
-import hasRouting from './router/hasRouting';
 import { resolveAppPath, resolveDevStackPath } from './utils/pathResolvers';
 
 const SERVER_BUNDLE_NAME = 'bundle.server.js';
 const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 3000;
 const HOST = process.env.HOST || '0.0.0.0';
-
-const getEntryServerName = () => {
-  if (!hasRedux()) {
-    return resolveDevStackPath('src/servers/server.js');
-  }
-
-  if (!hasRouting()) {
-    return resolveDevStackPath('src/servers/server.redux.js');
-  }
-
-  return resolveDevStackPath('src/servers/server.reduxRouter.js');
-};
 
 export default () => {
   if (!hasReact()) {
@@ -35,7 +21,7 @@ export default () => {
 
   detect(DEFAULT_PORT, HOST).then((port) => {
     if (port === DEFAULT_PORT) {
-      const compiler = webpack(buildServerWebpackConfig(SERVER_BUNDLE_NAME, getEntryServerName()));
+      const compiler = webpack(buildServerWebpackConfig(SERVER_BUNDLE_NAME));
       compiler.watch({}, () => {});
 
       let firstCompile = true;
