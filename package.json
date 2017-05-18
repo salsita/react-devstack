@@ -29,14 +29,8 @@
     "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "^0.11.1",
     "forever-monitor": "^1.7.1",
-    "react": "^15.5.4",
     "react-dev-utils": "^0.5.2",
-    "react-dom": "^15.5.4",
     "react-hot-loader": "^3.0.0-beta.6",
-    "react-redux": "^5.0.4",
-    "redux": "^3.6.0",
-    "redux-router5": "^4.2.3",
-    "router5": "^4.5.2",
     "style-loader": "^0.17.0",
     "webpack": "^2.4.1",
     "webpack-dev-middleware": "^1.10.2",
@@ -45,7 +39,11 @@
   },
   "peerDependencies": {
     "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react-dom": "^15.5.4",
+    "react-redux": "^5.0.4",
+    "redux": "^3.6.0",
+    "redux-router5": "^4.2.3",
+    "router5": "^4.5.2"
   },
   "files": [
     "lib",
