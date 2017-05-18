@@ -19,10 +19,10 @@ Enjoy all the hot-reloading, server side rendering etc. :-)
 
 `react-devstack` is packed with [`redux`](http://redux.js.org/) for dealing with state. Redux provides single store instance which holds all the state information in one place.
 
-## Routing
+## Routing (using router5)
 
-## Data fetching
+## Data fetching (using redux-saga)
 
-## Custom HTML template
+## Custom HTML template (using react-helmet)
 
-## DevTools
+## DevTools (using redux-devtools-extension)
