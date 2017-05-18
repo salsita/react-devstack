@@ -14,3 +14,7 @@ In order to get started as easily as possible, we have prepared CLI utility to m
 It will automatically open your browser upon compilation.
 
 Enjoy all the hot-reloading, server side rendering etc. :-)
+
+# State management (using Redux)
+
+`react-devstack` is packed with [`redux`](http://redux.js.org/) for dealing with state. Redux provides single store instance which holds all the state information in one place.
