@@ -15,9 +15,9 @@ It will automatically open your browser upon compilation.
 
 Enjoy all the hot-reloading, server side rendering etc. :-)
 
-## State management (using Redux)
+## State management (using [`Redux`'](http://redux.js.org/))
 
-`react-devstack` is packed with [`redux`](http://redux.js.org/) for dealing with state. Redux provides single store instance which holds all the state information in one place. Start using `redux` is as simple as creating root reducer in `src/reducers/rootReducer.js`.
+`react-devstack` is packed with Redux for dealing with state. Redux provides single store instance which holds all the state information in one place. Start using `redux` is as simple as creating root [reducer](http://redux.js.org/docs/basics/Reducers.html) in `src/reducers/rootReducer.js`.
 
 ```javascript
 export default (state = 0, { type }) {
