@@ -1,7 +1,6 @@
 import 'universal-fetch';
 
 import express from 'express';
-
 import { END } from 'redux-saga';
 
 import enrichClientBundleWithHotReloading from './enrichClientBundleWithHotReloading';
