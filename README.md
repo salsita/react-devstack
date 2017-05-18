@@ -17,7 +17,46 @@ Enjoy all the hot-reloading, server side rendering etc. :-)
 
 ## State management (using Redux)
 
-`react-devstack` is packed with [`redux`](http://redux.js.org/) for dealing with state. Redux provides single store instance which holds all the state information in one place.
+`react-devstack` is packed with [`redux`](http://redux.js.org/) for dealing with state. Redux provides single store instance which holds all the state information in one place. Start using `redux` is as simple as creating root reducer in `src/reducers/rootReducer.js`.
+
+```javascript
+export default (state = 0, { type }) {
+  switch (type) {
+    case 'Increment':
+      return state + 1;
+    default:
+      return state;
+  }
+}
+```
+
+And then just simply [`connect`](https://github.com/reactjs/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options) any component you need. For instance, you can `connect` the `Root`. State corresponding with the `rootReducer.js` is actually nested under key `root` in global application state passed to connect. Therefore you can either access the field directly using `root` key, or use `getRootState` selector from `react-devstack`.
+
+```javascript
+import React from 'react';
+import { connect } from 'react-redux';
+import { Selectors } from 'react-devstack';
+
+import logo from '../assets/salsita-logo.svg';
+
+const mapStateToProps = state => ({
+  clicked: state.root // Or simply use Selectors.getRootState(state)
+});
+
+const mapDispatchToProps = dispatch => ({
+  increment: () => ({ type: 'Increment' })
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(({ clicked, increment }) => (
+  <div>
+    <h1>Hello from react-devstack!</h1>
+    <img src={logo} width={200} />
+    <button onClick={increment}>Button clicked {clicked} times</button>
+  </div>
+));
+```
+
+`react-devstack-cli` offers easy way to create root reducer for you. Just use `rdc add redux` in your project.
 
 ## Routing (using router5)
 
