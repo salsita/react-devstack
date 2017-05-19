@@ -6,6 +6,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import { Provider } from 'react-redux';
+import { RouterProvider } from 'react-router5';
 
 import createReducer from '../redux/createReducer';
 import createStore from '../redux/createStore';
@@ -36,7 +37,9 @@ const doRender = (Cmp) => {
   render((
     <AppContainer>
       <Provider store={store}>
-        <Cmp />
+        <RouterProvider router={router}>
+          <Cmp />
+        </RouterProvider>
       </Provider>
     </AppContainer>
   ), document.getElementById('root'));

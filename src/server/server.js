@@ -1,6 +1,10 @@
 import 'universal-fetch';
 
 import express from 'express';
+import React from 'react';
+import { renderToString } from 'react-dom/server';
+import { Provider } from 'react-redux';
+import { RouterProvider } from 'react-router5';
 import { END } from 'redux-saga';
 
 import enrichClientBundleWithHotReloading from './enrichClientBundleWithHotReloading';
@@ -8,9 +12,10 @@ import enrichProductionStaticFileServing from './enrichProductionStaticFileServi
 import exitWhenError from './exitWhenError';
 import htmlTemplate from '../htmlTemplate';
 import createStore from '../redux/createStore';
-import renderAppToString from '../redux/renderAppToString';
 import createRouter from '../router/createRouter';
 import { isNotFoundRoute } from '../selectors';
+
+import Root from 'app/components/Root';
 
 exitWhenError();
 
@@ -58,21 +63,37 @@ server.get('*', (req, res) => {
   const { store, task } = createStore(reducer, saga, router);
 
   router.start(req.originalUrl, (error) => {
-    store.dispatch(END);
-    task.done.then(() => {
-      if (error) {
-        res
-          .status(ERROR_CODE)
-          .send(error);
-      } else {
+    if (error) {
+      // TODO: error handling
+      res
+        .status(ERROR_CODE)
+        .send(error);
+    } else {
+      store.dispatch(END);
+      task.done.then(() => {
         const state = store.getState();
         const found = routes ? !isNotFoundRoute(state) : true;
 
-        res
-          .status(found ? OK_CODE : NOT_FOUND_CODE)
-          .send(templateProvider(renderAppToString(store), store.getState()));
-      }
-    });
+        try {
+          res
+            .status(found ? OK_CODE : NOT_FOUND_CODE)
+            .send(templateProvider(renderToString(
+              <Provider store={store}>
+                <RouterProvider router={router}>
+                  <Root />
+                </RouterProvider>
+              </Provider>
+            ), store.getState()));
+        } catch (ex) {
+          // TODO: error handling
+          console.error(ex);
+
+          res
+            .status(ERROR_CODE)
+            .send(ex.message);
+        }
+      });
+    }
   });
 });
 
