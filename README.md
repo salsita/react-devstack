@@ -102,6 +102,8 @@ export default connect(
 )(Root);
 ```
 
+`react-devstack-cli` offers easy way to create routing file for you. Just use `rdc add routing` in your project.
+
 ### Links
 
 `react-devstack` exposes `Link` component. You need to provide route name as the only required property. Child of the component should be a function returning markup. This function is called with three important arguments: `onClick`, `href`, `active` and `props` originally passed to the component, so that you can define your own markup.
@@ -127,14 +129,14 @@ import { Link } from 'react-devstack';
 // It's better to have this function stored so that
 // it's not being re-created with each render
 // unlike anonymous function
-const fn = (onClick, href, active, props) => active ?
+const render = (onClick, href, active, props) => active ?
   <span>{props.originalChildren}</span> :
   <a href={href} onClick={onClick}>{props.originalChildren}</a>;
 
-const MyApplicationLink = (props) => <Link {...props} originalChildren={props.children}>{fn}</Link>;
+const MyApplicationLink = (props) => <Link {...props} originalChildren={props.children}>{render}</Link>;
 ```
 
-Now it can be used like simple component:
+Now it can be used like a simple component:
 
 ```javascript
 const Root = () => (
