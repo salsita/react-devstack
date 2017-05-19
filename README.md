@@ -102,7 +102,49 @@ export default connect(
 )(Root);
 ```
 
-// TODO: links
+### Links
+
+`react-devstack` exposes `Link` component. You need to provide route name as the only required property. Child of the component should be a function returning markup. This function is called with three important arguments: `onClick`, `href`, `active` and `props` originally passed to the component, so that you can define your own markup.
+
+```javascript
+import { Link } from 'react-devstack';
+
+const Root = () => (
+  <div>
+    <Link name="cats">{(onClick, href, active) => active ? <span>Cats</span> : <a href={href} onClick={onClick}>Cats</a>}</Link>
+  </div>
+);
+
+export default Root;
+```
+
+However, it's better to create re-usable component which could look as follows:
+
+```javascript
+import React from 'react';
+import { Link } from 'react-devstack';
+
+// It's better to have this function stored so that
+// it's not being re-created with each render
+// unlike anonymous function
+const fn = (onClick, href, active, props) => active ?
+  <span>{props.originalChildren}</span> :
+  <a href={href} onClick={onClick}>{props.originalChildren}</a>;
+
+const MyApplicationLink = (props) => <Link {...props} originalChildren={props.children}>{fn}</Link>;
+```
+
+Now it can be used like simple component:
+
+```javascript
+const Root = () => (
+  <div>
+    <MyApplicationLink name="cats">Cats</MyApplicationLink>
+  </div>
+);
+
+export default Root;
+```
 
 ## Data fetching (using redux-saga)
 
