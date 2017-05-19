@@ -220,6 +220,27 @@ export default function* () {
 
 Now, whenever user enters `/cats` route, it will automatically fetch random gif. This is of course happens on the server when user opens the app from `/cats` url, and the request is sent just once (on the server), once it loads on the client, the request is not sent again, they would need to click on different link and get back to `/cats` again to re-trigger API call.
 
-## Custom HTML template (using react-helmet)
+## Custom HTML template (using [react-helmet](https://github.com/nfl/react-helmet#react-helmet))
 
-## DevTools (using redux-devtools-extension)
+You can use `react-helmet` whenever you need in your application to control content of whole HTML. So if you just need to change `title` on specific page. Just use `Helmet` provided from `react-helmet`:
+
+```javascript
+import React from 'react';
+import { Helmet } from 'react-helmet';
+
+const Cats = () => (
+  <div>
+    <Helmet>
+      <title>Kewl cats</title>
+    </Helmet>
+    <div>
+      <h1>Cats</h1>
+      <p>Lorem ipsum....</p>
+    </div>
+  </div>
+);
+
+export default Cats;
+```
+
+This will automatically work on the server as well. You can nest `Helmets` as described in [react-helmet docs](https://github.com/nfl/react-helmet#example) to override default values with specifics.
