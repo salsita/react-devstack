@@ -197,8 +197,28 @@ export default function*() {
 }
 ```
 
-So just swapping `takeEvery` for `SagaEffects.takeEveryUniversal` from `react-devstack` will do the trick.
+So just swapping `takeEvery` with `SagaEffects.takeEveryUniversal` from `react-devstack` will do the trick.
 
+### Route based data fetching
+
+Typical use case for any web application is fetch some data based on active route. It's very simple with `react-devstack` because `onEnterRouteUniversal` saga is exposed.
+
+```javascript
+import { call, fork, put } from 'redux-saga/effects';
+import { SagaEffects } from 'react-devstack';
+
+const fetchGif = topic => fetch(`http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=${topic}`)
+  .then(response => response.json());
+
+export default function* () {
+  yield fork(SagaEffects.onEnterRouteUniversal, 'cats', function*() {
+    const data = yield call(fetchGif, 'funny cats');
+    yield put({ type: 'CatsFetched', payload: data.data.image_url });
+  });
+}
+```
+
+Now, whenever user enters `/cats` route, it will automatically fetch random gif. This is of course happens on the server when user opens the app from `/cats` url, and the request is sent just once (on the server), once it loads on the client, the request is not sent again, they would need to click on different link and get back to `/cats` again to re-trigger API call.
 
 ## Custom HTML template (using react-helmet)
 
