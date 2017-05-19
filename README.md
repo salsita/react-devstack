@@ -150,7 +150,55 @@ export default Root;
 
 It's highly recommended to read through router5 [documentation](http://router5.github.io/docs/why-router5.html).
 
-## Data fetching (using redux-saga)
+## Data fetching (using [redux-saga](https://redux-saga.js.org/))
+
+Generally `react-devstack` utilizes `redux-saga` to deal with side effects. You don't need to install nor setup anything. Everything is already plugged in and it's up to you to just create `src/sagas/rootSaga.js` and export generator function which will act as your root saga.
+
+You can also use `react-devstack-cli` to create the file by calling `rdc add saga`.
+
+It's possible to use `redux-saga` exactly the way it's proposed in the documentation, for example you can fetch user from the server as easily as:
+
+```javascript
+import { takeEvery, put, call } from 'redux-saga/effects';
+
+const fetchUser = fetch('/user').then(result => result.json());
+
+export default function*() {
+  yield takeEvery('FetchUser', function*() {
+    try {
+      const user = yield call(fetchUser);
+      yield put({ type: 'UserFetched', payload: user });
+    } catch (ex) {
+      console.error(ex);
+      yield put({ type: 'UserFetchingFailed' });
+    }
+  });
+}
+```
+
+However, this would not work because `react-devstack` waits until all the tasks in sagas are resolved before sending response from the server and since `takeEvery` waits indefinitely it would just hang. Therefore we have wrapped simple concept for server-side-rendering as proposed in (redux-saga docs) and very trivial implementation of `takeEveryUniversal` saga is exposed.
+
+```javascript
+import { put, call } from 'redux-saga/effects';
+import { SagaEffects } from 'react-devstack';
+
+const fetchUser = fetch('/user').then(result => result.json());
+
+export default function*() {
+  yield SagaEffects.takeEveryUniversal('FetchUser', function*() {
+    try {
+      const user = yield call(fetchUser);
+      yield put({ type: 'UserFetched', payload: user });
+    } catch (ex) {
+      console.error(ex);
+      yield put({ type: 'UserFetchingFailed' });
+    }
+  });
+}
+```
+
+So just swapping `takeEvery` for `SagaEffects.takeEveryUniversal` from `react-devstack` will do the trick.
+
 
 ## Custom HTML template (using react-helmet)
 
