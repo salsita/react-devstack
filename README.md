@@ -148,6 +148,8 @@ const Root = () => (
 export default Root;
 ```
 
+It's highly recommended to read through router5 [documentation](http://router5.github.io/docs/why-router5.html).
+
 ## Data fetching (using redux-saga)
 
 ## Custom HTML template (using react-helmet)
