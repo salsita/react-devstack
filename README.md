@@ -15,7 +15,7 @@ It will automatically open your browser upon compilation.
 
 Enjoy all the hot-reloading, server side rendering etc. :-)
 
-## State management (using [`Redux`](http://redux.js.org/))
+## State management (using [redux](http://redux.js.org/))
 
 `react-devstack` is packed with Redux for dealing with state. Redux provides single store instance which holds all the state information in one place. Start using `redux` is as simple as creating root [reducer](http://redux.js.org/docs/basics/Reducers.html) in `src/reducers/rootReducer.js`.
 
@@ -58,7 +58,51 @@ export default connect(mapStateToProps, mapDispatchToProps)(({ clicked, incremen
 
 `react-devstack-cli` offers easy way to create root reducer for you. Just use `rdc add redux` in your project.
 
-## Routing (using router5)
+## Routing (using [router5](http://router5.github.io/))
+
+Fundamental part of every real application is routing. `react-devstack` utilizes `router5` as underlying routing library and it's automatically synchronized with `redux`. Adding routing to your project involves creating [routing schema file](http://router5.github.io/docs/configuring-routes.html) as defined by `router5`. Just create a file named `src/routing/routes.js` and export list of routes:
+
+```javascript
+export default [{
+  name: 'index',
+  path: '/'
+}, {
+  name: 'cats',
+  path: '/cats'
+}];
+```
+
+Now, whenever in your code, you can just use `Selectors.getRoute` which returns active route object. The object contains field `name` so that you can conditionally check in any component.
+
+```javascript
+import { Selectors } from 'react-devstack';
+
+const Root = ({
+  isRouteFound,
+  activeRoute
+}) => (
+  <div>
+    {isRouteFound && (
+      <div>
+        {activeRoute.name === 'cats' && <Cats />}
+        {activeRoute.name === 'index' && <Index />}
+      </div>
+    )}
+    {!isRouteFound && <div>404</div>}
+  </div>
+);
+
+const mapStateToProps = state => ({
+  isRouteFound: !Selectors.isNotFoundRoute(state),
+  activeRoute: Selectors.getRoute(state)
+});
+
+export default connect(
+  mapStateToProps
+)(Root);
+```
+
+// TODO: links
 
 ## Data fetching (using redux-saga)
 
