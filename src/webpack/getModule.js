@@ -30,7 +30,7 @@ export default (cssLoaders, fileLoaders) => ({
     include: realpathSync(resolveAppPath('src')),
     use: cssLoaders
   }, {
-    test: /\.svg$/,
+    test: /\.svg|\.ico$/,
     include: realpathSync(resolveAppPath('src')),
     use: fileLoaders
   }]
