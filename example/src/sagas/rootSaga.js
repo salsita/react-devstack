@@ -1,4 +1,4 @@
-import { call, fork, put, select, takeEvery } from 'redux-saga/effects';
+import { all, call, fork, put, select, takeEvery } from 'redux-saga/effects';
 import { Actions, SagaEffects } from 'react-devstack';
 
 import * as ActionTypes from '../constants/actionTypes';
@@ -84,11 +84,11 @@ function* onStargazersFetchMore() {
 }
 
 export default function* () {
-  yield [
+  yield all(
     takeEvery(ActionTypes.EXPLORE_SUBMIT, onSubmitExplore),
     takeEvery(ActionTypes.STARRED_FETCH_MORE, onStarredFetchMore),
     takeEvery(ActionTypes.STARGAZERS_FETCH_MORE, onStargazersFetchMore),
     fork(SagaEffects.onEnterRouteUniversal, Routes.USER, onEnterUser),
     fork(SagaEffects.onEnterRouteUniversal, Routes.REPO, onEnterRepo)
-  ];
+  );
 }
