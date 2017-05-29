@@ -1,6 +1,6 @@
 {
   "name": "react-devstack",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "An ultimate development stack built on top of React with Redux",
   "author": "Tomas Weiss <tomasw@salsitasoft.com>",
   "license": "MIT",
