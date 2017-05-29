@@ -84,11 +84,11 @@ function* onStargazersFetchMore() {
 }
 
 export default function* () {
-  yield all(
+  yield all([
     takeEvery(ActionTypes.EXPLORE_SUBMIT, onSubmitExplore),
     takeEvery(ActionTypes.STARRED_FETCH_MORE, onStarredFetchMore),
     takeEvery(ActionTypes.STARGAZERS_FETCH_MORE, onStargazersFetchMore),
     fork(SagaEffects.onEnterRouteUniversal, Routes.USER, onEnterUser),
     fork(SagaEffects.onEnterRouteUniversal, Routes.REPO, onEnterRepo)
-  );
+  ]);
 }
