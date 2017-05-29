@@ -59,30 +59,14 @@ const handleGithubResponse = entitySchema => response => response.json().then((j
   );
 });
 
-export const fetchUser = login => fetch(buildApiUrl(`/users/${login}`), {
-  headers: {
-    Authorization: 'token 5c3a038a3bd055e17a71a42dd54890a78e473083'
-  }
-})
+export const fetchUser = login => fetch(buildApiUrl(`/users/${login}`))
   .then(handleGithubResponse(Schemas.USER));
 
-export const fetchRepo = repoFullName => fetch(buildApiUrl(`/repos/${repoFullName}`), {
-  headers: {
-    Authorization: 'token 5c3a038a3bd055e17a71a42dd54890a78e473083'
-  }
-})
+export const fetchRepo = repoFullName => fetch(buildApiUrl(`/repos/${repoFullName}`))
   .then(handleGithubResponse(Schemas.REPO));
 
-export const fetchStarred = (login, nextPageUrl = `/users/${login}/starred`) => fetch(buildApiUrl(nextPageUrl), {
-  headers: {
-    Authorization: 'token 5c3a038a3bd055e17a71a42dd54890a78e473083'
-  }
-})
+export const fetchStarred = (login, nextPageUrl = `/users/${login}/starred`) => fetch(buildApiUrl(nextPageUrl))
   .then(handleGithubResponse(Schemas.REPO_ARRAY));
 
-export const fetchStargazers = (repoFullName, nextPageUrl = `/repos/${repoFullName}/stargazers`) => fetch(buildApiUrl(nextPageUrl), {
-  headers: {
-    Authorization: 'token 5c3a038a3bd055e17a71a42dd54890a78e473083'
-  }
-})
+export const fetchStargazers = (repoFullName, nextPageUrl = `/repos/${repoFullName}/stargazers`) => fetch(buildApiUrl(nextPageUrl))
   .then(handleGithubResponse(Schemas.USER_ARRAY));
