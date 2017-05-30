@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 export default class List extends Component {
 
+
   renderLoadMore() {
     const { isFetching, onLoadMoreClick } = this.props;
 
@@ -23,12 +24,12 @@ export default class List extends Component {
       items, renderItem, loadingLabel
     } = this.props;
 
-    const isEmpty = items.length === 0
+    const isEmpty = items.length === 0;
     if (isEmpty && isFetching) {
       return <h2><i>{loadingLabel}</i></h2>;
     }
 
-    const isLastPage = !nextPageUrl
+    const isLastPage = !nextPageUrl;
     if (isEmpty && isLastPage) {
       return <h1><i>Nothing here!</i></h1>;
     }

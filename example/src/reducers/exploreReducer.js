@@ -7,7 +7,10 @@ const initialState = {
 export default (state = initialState, { type, payload }) => {
   switch (type) {
     case ActionTypes.EXPLORE_CHANGE_FIELD:
-      return Object.assign({}, state, { value: payload });
+      return {
+        ...state,
+        value: payload
+      };
 
     default:
       return state;

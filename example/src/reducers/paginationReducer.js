@@ -7,7 +7,8 @@ const updatePagination = (state = {
   nextPageUrl: undefined,
   pageCount: 0,
   ids: []
-}, { payload: { nextPageUrl, result } }) => Object.assign({}, state, {
+}, { payload: { nextPageUrl, result } }) => ({
+  ...state,
   pageCount: state.pageCount + 1,
   nextPageUrl,
   ids: union(state.ids, result)
@@ -19,14 +20,16 @@ export default (state = initialState, action) => {
       return initialState;
 
     case ActionTypes.STARRED_FETCHED:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         starredByUsers: updatePagination(state.starredByUsers, action)
-      });
-    
+      };
+
     case ActionTypes.STARGAZERS_FETCHED:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         stargazers: updatePagination(state.stargazers, action)
-      });
+      };
 
     default:
       return state;

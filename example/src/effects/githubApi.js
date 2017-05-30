@@ -53,20 +53,26 @@ const handleGithubResponse = entitySchema => response => response.json().then((j
   const camelizedJson = camelizeKeys(json);
   const nextPageUrl = getNextPageUrl(response);
 
-  return Object.assign({},
-    normalize(camelizedJson, entitySchema),
-    { nextPageUrl }
-  );
+  return {
+    ...normalize(camelizedJson, entitySchema),
+    nextPageUrl
+  };
 });
 
-export const fetchUser = login => fetch(buildApiUrl(`/users/${login}`))
+const fetchFromGithub = url => fetch(buildApiUrl(url), {
+  headers: {
+    Authorization: 'token 400af9f9005a191ebf7d5332fe5ab5a1a1fe7e9f'
+  }
+});
+
+export const fetchUser = login => fetchFromGithub(`/users/${login}`)
   .then(handleGithubResponse(Schemas.USER));
 
-export const fetchRepo = repoFullName => fetch(buildApiUrl(`/repos/${repoFullName}`))
+export const fetchRepo = repoFullName => fetchFromGithub(`/repos/${repoFullName}`)
   .then(handleGithubResponse(Schemas.REPO));
 
-export const fetchStarred = (login, nextPageUrl = `/users/${login}/starred`) => fetch(buildApiUrl(nextPageUrl))
+export const fetchStarred = (login, nextPageUrl = `/users/${login}/starred`) => fetchFromGithub(nextPageUrl)
   .then(handleGithubResponse(Schemas.REPO_ARRAY));
 
-export const fetchStargazers = (repoFullName, nextPageUrl = `/repos/${repoFullName}/stargazers`) => fetch(buildApiUrl(nextPageUrl))
+export const fetchStargazers = (repoFullName, nextPageUrl = `/repos/${repoFullName}/stargazers`) => fetchFromGithub(nextPageUrl)
   .then(handleGithubResponse(Schemas.USER_ARRAY));

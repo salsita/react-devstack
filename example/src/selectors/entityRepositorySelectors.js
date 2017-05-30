@@ -12,8 +12,10 @@ export const getRepos = createSelector(
   getUsers,
   (state, users) => Object
     .keys(state.repos)
-    .reduce((acc, repoId) => Object.assign({}, acc, {
-      [repoId]: Object.assign({}, state.repos[repoId], {
+    .reduce((acc, repoId) => ({
+      ...acc,
+      [repoId]: ({
+        ...(state.repos[repoId]),
         owner: users[state.repos[repoId].owner]
       })
     }), {})
