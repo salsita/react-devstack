@@ -30,6 +30,11 @@ const plugins = [
     __HAS_REDUX__,
     __HAS_ROUTING__,
     __HAS_SAGA__
+  }),
+  new webpack.BannerPlugin({
+    banner: 'require("source-map-support").install();',
+    raw: true,
+    entryOnly: false
   })
 ];
 
@@ -46,6 +51,7 @@ if (!__HAS_SAGA__) {
 }
 
 export default bundleName => ({
+  devtool: 'sourcemap',
   entry: [
     'webpack/hot/poll?1000',
     resolveDevStackPath('src/server/server.js')

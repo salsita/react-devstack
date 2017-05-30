@@ -57,7 +57,8 @@ export default () => {
               ...process.env,
               NODE_PATH: resolveAppPath('node_modules'),
               PORT: DEFAULT_PORT
-            }
+            },
+            command: 'node --inspect'
           });
           serverProcess.start();
           firstCompile = false;

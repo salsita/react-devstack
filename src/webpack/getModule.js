@@ -2,7 +2,11 @@ import { realpathSync } from 'fs';
 
 import { resolveDevStackPath, resolveAppPath } from '../utils/pathResolvers';
 
-const plugins = ['transform-runtime'];
+const plugins = [
+  'transform-runtime',
+  ['transform-object-rest-spread', { useBuiltIns: true }],
+  ['transform-class-properties', { useBuiltIns: true }]
+];
 
 if (process.env.NODE_ENV === 'development') {
   plugins.push(resolveAppPath('node_modules/react-hot-loader/babel'));

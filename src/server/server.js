@@ -62,37 +62,45 @@ server.get('*', (req, res) => {
   const router = createRouter(routes);
   const { store, task } = createStore(reducer, saga, router);
 
-  router.start(req.originalUrl, (error) => {
-    if (error) {
-      // TODO: error handling
+  const sendResponse = () => {
+    const state = store.getState();
+    const found = routes ? !isNotFoundRoute(state) : true;
+
+    try {
+      res
+        .status(found ? OK_CODE : NOT_FOUND_CODE)
+        .send(templateProvider(renderToString(
+          <Provider store={store}>
+            <RouterProvider router={router}>
+              <Root />
+            </RouterProvider>
+          </Provider>
+        ), store.getState()));
+    } catch (ex) {
+      console.error(ex);
+
       res
         .status(ERROR_CODE)
-        .send(error);
+        .send(`<h1>Exception</h1><h2>${ex.message}</h2><pre>${ex.stack}</pre>`);
+    }
+  };
+
+  router.start(req.originalUrl, (error) => {
+    if (error) {
+      throw error;
+    } else if (process.env.DISABLE_SSR) {
+      if (process.env.NODE_ENV === 'production') {
+        console.warn(
+          'You have selected to disable server side rendering by providing DISABLE_SSR env variable. ' +
+          'This is however generally not good idea in NODE_ENV=production, because of unexpected behaviour. ' +
+          'DISABLE_SSR env variable is meant to be used just for easier debugging in development.'
+        );
+      }
+
+      sendResponse();
     } else {
       store.dispatch(END);
-      task.done.then(() => {
-        const state = store.getState();
-        const found = routes ? !isNotFoundRoute(state) : true;
-
-        try {
-          res
-            .status(found ? OK_CODE : NOT_FOUND_CODE)
-            .send(templateProvider(renderToString(
-              <Provider store={store}>
-                <RouterProvider router={router}>
-                  <Root />
-                </RouterProvider>
-              </Provider>
-            ), store.getState()));
-        } catch (ex) {
-          // TODO: error handling
-          console.error(ex);
-
-          res
-            .status(ERROR_CODE)
-            .send(ex.message);
-        }
-      });
+      task.done.then(sendResponse);
     }
   });
 });
